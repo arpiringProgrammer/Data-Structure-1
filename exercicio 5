@@ -1,0 +1,97 @@
+/*
+Idem a questão acima, mas use a função realloc
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZE 10
+
+int *createVector(int size) {
+   int *vector = (int*)malloc(size * sizeof(int));
+   
+   if(!vector) {
+      printf("an error ocurried.\n");
+      return NULL;
+   }
+   return vector;
+}
+
+int *fillTheVector(int *vector,int *size,int *count) {
+   int input = -1;
+   
+   while(input != 0) {
+      scanf("%d",&input);
+      
+      if(input == 0) {
+         break;
+      }
+      
+      if(input != 0 && (*count)%10 == 0) {
+         (*size) = (*count) + SIZE;
+         
+         vector = (int*)realloc(vector,(*size) * sizeof(int));
+         
+         if(!vector) {
+            printf("an error ocurried.\n");
+            return NULL;
+         }
+         
+      }
+      
+      vector[*count] = input;
+      (*count)++;
+   }
+   
+   return vector;
+   
+}
+
+void fillTheFile(FILE *file,int count,int *vector) {
+   file = fopen("info.txt","w");
+   
+   if(!file) {
+      printf("an error ocurried.\n");
+      return ;
+   }
+   
+   for(int i = 0; i < count; i++) {
+      fprintf(file,"%d",vector[i]);
+      printf("%d",vector[i]);
+   }
+   
+   fclose(file);
+   
+}
+
+void emptyFile(FILE *file) {
+   free(file);
+}
+
+
+int main()
+{
+   int size = SIZE;
+   FILE *file;
+   int *vector = NULL;
+   int count = 0;
+   
+   vector = createVector(size);
+   
+   if(!vector) {
+      printf("an error ocurried.\n");
+      return 1;
+   }
+
+   printf("filling the vector.\n");
+   
+   vector = fillTheVector(vector,&size,&count);
+   
+   printf("filling the file.\n");
+   
+   fillTheFile(file,count,vector);
+   
+   emptyFile(file);
+   
+
+    return 0;
+}
