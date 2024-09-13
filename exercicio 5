@@ -95,3 +95,72 @@ int main()
 
     return 0;
 }
+
+outra solução
+
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZE 10
+
+
+int *createVector(int value) {
+   int *vector = (int*)malloc(value * sizeof(int));
+   if(!vector) {
+      printf("an error ocurried.\n");
+      return NULL;
+   }
+   return vector;
+}
+
+
+int main()
+{
+   int size = SIZE;
+   int input = -1;
+   int count = 0;
+   FILE *file;
+   int *vector = NULL;
+   
+   vector = createVector(size);
+   
+   if(!vector) {
+      printf("an error ocurried.\n");
+      return 1;
+   }
+   
+   printf("fill the vector:\n");
+   
+   while(input != 0) {
+      scanf("%d",&input);
+      
+      if(input == 0) {
+         break;
+      }
+      
+      if(input != 0 && count%10 == 0) {
+         size = count + SIZE;
+         
+         vector = (int*)realloc(vector,size * sizeof(int));
+         
+         if(!vector) {
+            printf("an error ocurried.\n");
+            return 1;
+         }
+      }
+      
+      vector[count] = input;
+      count++;
+   }
+   
+   file = fopen("info.txt","w");
+   
+   for(int i = 0; i < count; i++) {
+      fprintf(file,"%d",vector[i]);
+      printf("%d",vector[i]);
+   }
+   
+   free(vector);
+   fclose(file);
+
+    return 0;
+}
