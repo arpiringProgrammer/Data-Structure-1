@@ -1,0 +1,110 @@
+/*
+ Construa um programa (main) que aloque em tempo de execução (dinamicamente) uma matriz de
+ordem m x n (linha por coluna), usando 1+m chamadas a função malloc. Agora, aproveite este
+programa para construir uma função que recebendo os parâmetros m e n aloque uma matriz de
+ordem m x n e retorne um ponteiro para esta matriz alocada. Crie ainda uma função para liberar a
+área de memória alocada pela matriz. Finalmente, crie um novo programa (main) que teste/use as
+duas funções criadas acima.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#define ONE 1
+
+void getNumber(int *r,int *c) {
+   printf("please inform the rows:\n");
+   scanf("%d",r);
+   printf("please inform the column:\n");
+   scanf("%d",c);
+}
+
+int **createMatrix(int **matrix,int r,int c) {
+   matrix = (int**)malloc(r * sizeof(int*));
+   if(!matrix) {
+      printf("an error ocurried.\n");
+      return NULL;
+   }
+   
+   for(int i = 0; i < c; i++) {
+      matrix[i] = (int*)malloc(c * sizeof(int));
+      if(!matrix[i]) {
+         printf("an error ocurried.\n");
+         return NULL;
+      }
+   }
+   return matrix;
+}
+
+void printMatrix(int **matrix,int r,int c) {
+   for(int i = 0; i < r; i++) {
+      for(int j = 0; j < c; j++) {
+         printf("%d",matrix[i][j]);
+      }
+      printf("\n");
+   }
+}
+
+void writeFile(FILE *file,int **matrix,int r,int c) {
+   file = fopen("info.txt","w");
+   if(!file) {
+      printf("an error ocurried.\n");
+      return;
+   }
+   
+   for(int i = 0; i < r; i++) {
+      for(int j = 0; j < c; j++) {
+         fprintf(file,"%d",matrix[i][j]);
+      }
+      fprintf(file,"\n");
+   }
+   fclose(file);
+}
+
+void deleteMatrix(int **matrix,int c) {
+   for(int i = c; i < c; i++) {
+      free(matrix[i]);
+   }
+   free(matrix);
+}
+
+void writeMatrix(int **matrix,int r,int c) {
+   for(int i = 0; i < r; i++) {
+      for(int j = 0; j < c; j++) {
+         printf("%d row, %d column:\n",i + ONE,j + ONE);
+         scanf("%d",&matrix[i][j]);
+      }
+   }
+}
+
+int main()
+{
+    int r = 0,c = 0;
+    int **matrix = NULL;
+    FILE *file;
+    
+    
+    printf("please inform the dimensions of the matrix:\n");
+    
+    getNumber(&r,&c);
+    
+    matrix = createMatrix(matrix,r,c);
+    
+    if (!matrix) {
+       return 1;
+    }
+    
+    printf("please inform the values of the matrix:\n");
+    writeMatrix(matrix,r,c);
+    
+    printf("printing the matrix:\n");
+    printMatrix(matrix,r,c);
+    
+    printf("printing in a file:\n");
+    writeFile(file,matrix,r,c);
+    
+    printf("deleting matrix:\n");
+    deleteMatrix(matrix,r);
+    
+
+    return 0;
+}
