@@ -1,0 +1,68 @@
+/*
+1) Implemente um TAD Retangulo. Um retângulo tem os atributos altura e largura, uma função para
+inicializar estes atributos com valores passados como parâmetro, funções que calculem e retornem o
+perímetro e a área do retângulo e uma função que imprime as informações do retângulo (altura,
+largura, perímetro e área). Em seguida, faça um programa para testar o seu TAD.
+
+--arquivo.c--
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "Oslon.h"
+
+void createRectangle(Rectangle* r, int b, int h) {
+	r->base = b;
+	r->height = h;
+}
+
+float calculatePerimeter(Rectangle* r) {
+	return 2 * (r->base + r->height);
+}
+
+float calculateArea(Rectangle* r) {
+	return r->base * r->height;
+}
+
+void showResults(Rectangle* r) {
+	printf("value of the base:%.2f \n",r->base);
+	printf("value of the height:%.2f \n",r->height);
+	printf("Perimeter:%.2f \n",calculatePerimeter(r));
+	printf("area:%.2f \n",calculateArea(r));
+}
+
+--arquivo.h--
+
+#pragma once
+
+typedef struct {
+	float base;
+	float height;
+}Rectangle;
+
+void createRectangle(Rectangle* r, int b, int h);
+
+float calculatePerimeter(Rectangle* r);
+
+float calculateArea(Rectangle* r);
+
+void showResults(Rectangle* r);
+
+--main.c--
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "Oslon.h"
+
+int main() {
+
+  Rectangle rec;
+  
+  createRectangle(&rec, 5.0, 10.0);
+
+  showResults(&rec);
+
+return 0;
+}
+
