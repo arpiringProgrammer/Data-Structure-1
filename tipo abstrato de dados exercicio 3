@@ -1,0 +1,110 @@
+/*
+3) Implemente um TAD Hora para representar uma hora específica do dia, armazenando horas,
+minutos e segundos como inteiros. As seguintes operações devem ser implementadas:
+a. atribui: Para atribuir valores para os campos (garanta que o horário seja válido, atribuindo valor 0
+para dados inválidos);
+b. avancar: Para avançar no tempo (deste que no intervalo de um dia). Deve ser passado a
+quantidade de segundos a ser acrescentado à data.
+c. comparar: Retorna true se dois horários são iguais e false caso contrário;
+d. imprimir: Para imprimir a hora no formato h:m:s.
+Faça um programa para tstar o TAD.
+*/
+
+main.c
+
+#include <stdio.h>
+#include "cabeçalho.h"
+
+int main() {
+    // Declaração da struct Time
+    Time t;
+
+    // Atribuindo valores à struct Time
+    printf("Atribuindo o tempo inicial:\n");
+    atribute(&t, 5, 5, 5);
+    printTime(&t);
+
+    // Avançando o tempo
+    printf("Avançando o tempo em 5 horas, 5 minutos e 5 segundos:\n");
+    advanceTime(&t, 5, 5, 5);
+    printTime(&t);
+
+    // Comparando o tempo
+    printf("Comparando o tempo com 10:10:10:\n");
+    if (compareTime(&t, 10, 10, 10)) {
+        printf("Os tempos são iguais!\n");
+    } else {
+        printf("Os tempos são diferentes.\n");
+    }
+
+    return 0;
+}
+
+arquivo.c
+
+#include <stdio.h>
+#include "cabeçalho.h"
+
+// Função para atribuir valores à struct Time
+void atribute(Time* t, int h, int m, int s) {
+    if (h >= 0 && h < 24 && m >= 0 && m < 60 && s >= 0 && s < 60) {
+        t->hour = h;
+        t->minute = m;
+        t->second = s;
+    } else {
+        t->hour = 0;
+        t->minute = 0;
+        t->second = 0;
+    }
+}
+
+// Função para avançar o tempo (h, m, s) e ajustar os valores
+int advanceTime(Time* t, int h, int m, int s) {
+    // Converter tudo para segundos
+    int total_seconds = t->second + t->minute * 60 + t->hour * 3600;
+    int advance_seconds = s + m * 60 + h * 3600;
+
+    total_seconds += advance_seconds;
+
+    // Converter de volta para horas, minutos e segundos
+    t->hour = (total_seconds / 3600) % 24;
+    t->minute = (total_seconds % 3600) / 60;
+    t->second = total_seconds % 60;
+
+    return 0; // Não estamos lidando com múltiplos dias
+}
+
+// Função para comparar o tempo atual com outro tempo (h, m, s)
+int compareTime(Time* t, int h, int m, int s) {
+    if (t->hour == h && t->minute == m && t->second == s) {
+        return 1; // True
+    }
+    return 0; // False
+}
+
+// Função para imprimir o tempo formatado
+void printTime(Time* t) {
+    printf("Current time: %02d:%02d:%02d\n", t->hour, t->minute, t->second);
+}
+
+
+cabeçalho.h
+
+#ifndef CABECALHO_H_INCLUDED
+#define CABECALHO_H_INCLUDED
+
+// Definição da struct Time
+typedef struct {
+    int hour;
+    int minute;
+    int second;
+} Time;
+
+// Funções
+void atribute(Time* t, int h, int m, int s);
+int advanceTime(Time* t, int h, int m, int s);
+int compareTime(Time* t, int h, int m, int s);
+void printTime(Time* t);
+
+#endif // CABECALHO_H_INCLUDED
+
