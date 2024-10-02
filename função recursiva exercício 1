@@ -1,0 +1,46 @@
+/*
+Questão 01)
+Implemente uma função recursiva para calcular o maior e o menor valor em um
+vetor de inteiros. Um programa para testar tal função também deve ser
+implementado.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+
+void verify_value(int vector[],int ind,int *higher,int *lower) {
+   
+   if(ind == 0) {
+      *higher = *lower = vector[0];
+      return;
+   }
+   
+   verify_value(vector,ind - 1,higher,lower);
+   
+   if(vector[ind - 1] > *higher) {
+      *higher = vector[ind];
+   }
+   
+   if(vector[ind - 1] < *lower) {
+      *lower = vector[ind];
+   }
+
+}
+
+int main()
+{
+    int vector[] = {1,2,3,4,5,6,7,8,9};
+    
+    int higher = 0,lower = 0;
+    
+    int ind = sizeof(vector) / sizeof(vector[0]);
+    
+    verify_value(vector,ind,&higher,&lower);
+    
+    printf("the highest number is:%d\n",higher);
+    printf("the lowest number is:%d\n",lower);
+
+    return 0;
+}
+
