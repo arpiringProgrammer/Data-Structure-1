@@ -1,0 +1,47 @@
+/*
+Questão 03)
+Implemente uma uma função recursiva que inverta os elementos de um vetor de
+inteiros,ou seja, trocar a primeira posição com a última, a segunda com a
+penúltima, e assim sucessivamente. Implemente um programa para testar tal
+função.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define SIZ 10
+
+int reverseVector(int vector[],int start,int end) {
+   if(start >= end) {
+      return 0;
+   }
+   
+   int temp = vector[start];
+   vector[start] = vector[end];
+   vector[end] = temp;
+   
+   return reverseVector(vector,start + 1,end - 1);
+}
+
+int main()
+{
+   int vector[SIZ] = {0,1,2,3,4,5,6,7,8,9};
+   
+   int end = sizeof(vector) / sizeof(vector[0]);
+   
+   printf("printing the vector:\n");
+   for(int i = 0;i < SIZ;i++) {
+      printf("%dº value:%d\n",i + 1,vector[i]);
+   }
+   
+   printf("printing the reversed vector.\n");
+   
+   reverseVector(vector,0,end - 1);
+
+   for(int j = 0; j < SIZ; j++) {
+      printf("%dº value:%d\n",j + 1,vector[j]);
+   }
+   
+
+    return 0;
+}
