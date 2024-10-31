@@ -1,0 +1,476 @@
+/*
+1) Dadas as declarações 
+typedef int TElemento; 
+typedef struct Nodo
+{
+Telemento info; 
+struct Nodo *next;
+}TNodo;
+typedef struct
+{
+TNodo *inicio, *fim;
+int tamanho;
+}TLista;
+typedef TLista *lista;
+Os campos inicio e fim do tipo TLista apontam, respectivamente, para o primeiro e último
+nodo da lista. O campo next do último nodo da lista aponta para NULL.
+resolva as questões abaixo:
+a) Implemente uma função para inverter a ordem dos elementos de uma lista linear realizando
+apenas a movimentação dos apontadores.
+b) Implemente uma função para verificar se uma lista está ordenada.
+c) Implemente uma função para inserir um elemento em uma lista em uma dada posição.
+d) Implemente uma função para excluir um elemento de uma lista em uma dada posição.
+e) Implemente uma função para verificar a existência de um elemento com uma
+determinada chave em uma lista ordenada. Retornar um ponteiro para tal nodo ou
+NULL.
+f) Implemente a função lista* intercala(lista l1, lista l2) que retorne uma lista a partir das listas
+ordenadas l1 e l2. A lista retornada deve ficar ordenada.
+g) implemente uma função que remova todos os nodos que possuam o campo info igual a um
+determinado valor.
+h) Escreva uma função que, dada uma lista com um número qualquer de elementos,
+encontre o menor elemento da lista e o mova para o começo da lista. Não é permitido
+trocar apenas os campos ou usar uma lista auxiliar! Você deverá fazer a manipulação dos
+apontadores para trocar os nodos de posição).
+
+*/
+
+Failed.c
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "Failed.h"
+
+/*
+) Dadas as declarações
+
+typedef int TElemento;
+
+typedef struct Nodo {
+	Telemento info;
+	struct Nodo *next;
+}TNodo;
+
+typedef struct {
+	TNodo *inicio, *fim;
+	int tamanho;
+}TLista;
+
+typedef TLista *lista;
+
+Os campos inicio e fim do tipo TLista apontam, respectivamente, para o primeiro e último
+nodo da lista. O campo next do último nodo da lista aponta para NULL.
+resolva as questões abaixo:
+a) Implemente uma função para inverter a ordem dos elementos de uma lista linear realizando
+apenas a movimentação dos apontadores.
+b) Implemente uma função para verificar se uma lista está ordenada.
+c) Implemente uma função para inserir um elemento em uma lista em uma dada posição.
+d) Implemente uma função para excluir um elemento de uma lista em uma dada posição.
+e) Implemente uma função para verificar a existência de um elemento com uma
+determinada chave em uma lista ordenada. Retornar um ponteiro para tal nodo ou
+NULL.
+f) Implemente a função lista* intercala(lista l1, lista l2) que retorne uma lista a partir 
+das listas
+ordenadas l1 e l2. A lista retornada deve ficar ordenada.
+g) implemente uma função que remova todos os nodos que possuam o campo info igual a um
+determinado valor.
+h) Escreva uma função que, dada uma lista com um número qualquer de elementos,
+encontre o menor elemento da lista e o mova para o começo da lista. Não é permitido
+trocar apenas os campos ou usar uma lista auxiliar! Você deverá fazer a manipulação dos
+apontadores para trocar os nodos de posição).
+*/
+
+int insertBeginning(lista l,int elemento) {
+	TNodo* first = (TNodo*)malloc(sizeof(TNodo));
+
+	if (!first) {
+		return 0;
+	}
+
+	first->info = elemento;
+	first->next = l->inicio;
+	l->inicio = first;
+
+	if (!l->inicio) {
+		l->fim = first;
+	}
+	
+	l->tamanho++;
+	return 1;
+}
+
+int invertOrder(lista l) {
+	TNodo* prev = NULL;
+	TNodo* current = l->inicio;
+	TNodo* next = NULL;
+
+	// Percorre a lista e inverte os apontadores
+	while (current != NULL) {
+		next = current->next;   // Armazena o próximo nó
+		current->next = prev;   // Inverte o apontador do nó atual
+		prev = current;         // Move 'prev' para o nó atual
+		current = next;         // Avança para o próximo nó
+	}
+
+	// Atualiza o início e o fim da lista
+	l->fim = l->inicio;
+	l->inicio = prev;
+
+	return 1; // Retorna 1 para indicar sucesso
+}
+
+
+int verifyOrder(lista l) {
+	if (!l->inicio) {
+		return 1;
+	}
+
+	TNodo* p = l->inicio;
+	int value = p->info;
+
+
+	while (p->next != NULL) {
+		p = p->next;
+		if (value <= p->info) {
+			value = p->info;
+		}
+		else {
+			return 0;
+		}
+	}
+
+	return 1;
+}
+
+int insertElement(lista l, int pos, int elemento) {
+	TNodo* node = (TNodo*)malloc(sizeof(TNodo));
+	TNodo* p = l->inicio;
+	TNodo* aux = NULL;
+
+	if (!node || pos < 1 || pos > (l->tamanho + 1)) {
+		return 0;
+	}
+
+	node->info = elemento;
+	if (pos == 1) {
+		node->next = l->inicio;
+		l->inicio = node;
+		if (l->tamanho == 0) {
+			l->fim = node;
+		}
+		l->tamanho++;
+		return 1;
+	}
+
+	if (pos == (l->tamanho + 1)) {
+		if (l->fim) {
+			l->fim->next = node;
+		}
+		l->fim = node;
+		node->next = NULL;
+		l->tamanho++;
+		return 1;
+	}
+
+	for (int i = 1; i < pos; i++) {
+		aux = p;
+		p = p->next;
+	}
+
+	node->next = p;
+	aux->next = node;
+	l->tamanho++;
+	return 1;
+}
+
+int deleteElement(lista l, int num) {
+	TNodo* p = l->inicio, * aux = NULL;
+
+
+	if (!l->inicio) {
+		return 0;
+	}
+
+	while (p != NULL) {
+		if (p->info == num) {
+			if (p == l->inicio) {
+				l->inicio = l->inicio->next;
+				if (l->inicio == NULL) {
+					l->fim = NULL;
+				}
+			}
+			else if (p == l->fim) {
+				aux->next = NULL;
+				l->fim = aux;
+			}
+			else {
+				aux->next = p->next;
+			}
+			free(p);
+			l->tamanho--;
+			return 1;
+		}
+		else {
+			aux = p;
+			p = p->next;
+		}
+	}
+	return 0;
+}
+
+int verifyExistence(lista l, int num) {
+	TNodo* p;
+
+	p = l->inicio;
+
+	if (!p) {
+		return 0;
+	}
+
+	while (p) {
+		if (p->info == num) {
+			return 1;
+		}
+		else {
+			p = p->next;
+		}
+	}
+	return 0;
+}
+
+lista mergeLists(lista l1, lista l2) {
+	// Criação da lista que armazenará o resultado intercalado
+	lista l3 = (lista)malloc(sizeof(TLista));
+	l3->inicio = l3->fim = NULL;
+	l3->tamanho = 0;
+
+	TNodo* p1 = l1->inicio;
+	TNodo* p2 = l2->inicio;
+	TNodo* tail = NULL; // Mantém o rastro do fim da lista l3 para inserir novos elementos
+
+	// Intercalando elementos de l1 e l2 em l3
+	while (p1 != NULL && p2 != NULL) {
+		TNodo* novo = (TNodo*)malloc(sizeof(TNodo));
+
+		if (p1->info <= p2->info) {
+			novo->info = p1->info;
+			p1 = p1->next;
+		}
+		else {
+			novo->info = p2->info;
+			p2 = p2->next;
+		}
+
+		novo->next = NULL;
+		if (l3->inicio == NULL) { // Primeira inserção
+			l3->inicio = l3->fim = novo;
+		}
+		else { // Inserção no final
+			tail->next = novo;
+			l3->fim = novo;
+		}
+		tail = novo;
+		l3->tamanho++;
+	}
+
+	// Insere os elementos restantes de l1
+	while (p1 != NULL) {
+		TNodo* novo = (TNodo*)malloc(sizeof(TNodo));
+		novo->info = p1->info;
+		novo->next = NULL;
+
+		if (l3->inicio == NULL) {
+			l3->inicio = l3->fim = novo;
+		}
+		else {
+			tail->next = novo;
+			l3->fim = novo;
+		}
+		tail = novo;
+		p1 = p1->next;
+		l3->tamanho++;
+	}
+
+	// Insere os elementos restantes de l2
+	while (p2 != NULL) {
+		TNodo* novo = (TNodo*)malloc(sizeof(TNodo));
+		novo->info = p2->info;
+		novo->next = NULL;
+
+		if (l3->inicio == NULL) {
+			l3->inicio = l3->fim = novo;
+		}
+		else {
+			tail->next = novo;
+			l3->fim = novo;
+		}
+		tail = novo;
+		p2 = p2->next;
+		l3->tamanho++;
+	}
+
+	return l3;
+}
+
+
+int removeNode(lista l, int num) {
+	TNodo* p = l->inicio;
+	TNodo* aux = NULL;
+
+	if (!l->inicio) {
+		return 0;
+	}
+
+	while (p != NULL) {
+		if (p->info == num) {
+			if (p == l->inicio) {
+				l->inicio = l->inicio->next;
+				free(p);
+				if (l->inicio == NULL) {
+					l->fim = NULL;
+				}
+				p = l->inicio;
+			}
+			else {
+				aux->next = p->next;
+				if (p == l->fim) {
+					l->fim = aux;
+				}
+				free(p);
+				p = aux->next;
+			}
+		}
+		else {
+			aux = p;
+			p = p->next;
+		}
+	}
+	return 1;
+}
+
+int moveSmallestElement(lista l) {
+	TNodo* p = l->inicio;
+	TNodo *aux = NULL;
+	int i = 0;
+
+	if (!l->inicio) {
+		return 0;
+	}
+
+	i = p->info;
+	while (p != NULL) {
+		if (i > p->info) {
+			i = p->info;
+		}
+		p = p->next;
+	}
+
+	p = l->inicio;
+	while (p != NULL) {
+		if (i == p->info) {
+			if (p == l->inicio) {
+				return 1;
+			}
+			else if (p == l->fim) {
+				aux->next = NULL;
+				l->fim = aux;
+			}
+			else {
+				aux->next = p->next;
+			}
+			p->next = l->inicio;
+			l->inicio = p;
+			return 1;
+		}
+		else {
+			aux = p;
+			p = p->next;
+		}
+	}
+	return 0;
+}
+
+int getTamanho(lista l) {
+	return l->tamanho;
+}
+
+int main() {
+	int choice = 0;
+	lista l;
+	int numero, elemento;
+
+	do {
+		printf("make your choice:\n");
+		printf("1 - invertOrder:\n");
+		printf("2 - verifyOrder:\n");
+		printf("3 - insertElement:\n");
+		printf("4 - deleteElement:\n");
+		printf("5 - verifyExistence:\n");
+		printf("6 - mergeLists:\n");
+		printf("7 - removeNode:\n");
+		printf("8 - moveSmallestElement:\n");
+		printf("9 - end:\n");
+		scanf("%d", &choice);
+
+		switch (choice) {
+		case 1:
+			invertOrder(l);
+		case 2:
+			verifyOrder(l);
+		case 3:
+			insertElement(l, numero, elemento);
+		case 4:
+			deleteElement(l, elemento);
+		case 5:
+			verifyExistence(l, numero);
+		case 6:
+			mergeLists(l,l);
+		case 7:
+			removeNode(l, numero);
+		case 8:
+			moveSmallestElement(l);
+		case 9:
+			break;
+
+		default:
+			printf("invalid option!!!\n");
+		}
+
+		
+	
+	} while (choice > 0 && choice < 9);
+
+	return 0;
+}
+
+Failed.h
+
+#ifndef INCLUDED_H_FAILED
+#define INCLUDED_H_FAILED
+
+typedef int TElemento;
+
+typedef struct Nodo {
+	TElemento info;
+	struct Nodo* next;
+}TNodo;
+
+typedef struct {
+	TNodo* inicio, * fim;
+	int tamanho;
+}TLista;
+
+typedef TLista* lista;
+
+int invertOrder(lista);
+int verifyOrder(lista);
+int insertElement(lista,int,int);
+int deleteElement(lista,int);
+int verifyExistence(lista,int);
+int mergeLists(lista,lista);
+int removeNode(lista,int);
+int moveSmallestElement(lista);
+int getTamanho(lista);
+
+
+#endif //INCLUDED_H_FAILED
