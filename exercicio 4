@@ -102,3 +102,131 @@ int main()
     return 0;
 }
 
+//outra versão:
+
+arquivo.c
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "Failed.h"
+#define TEN 10
+
+int* createVector(int size) {
+    int* vector = (int*)malloc(sizeof(int) * size);
+    if (!vector) {
+        printf("Memory allocation failed!\n");
+        return NULL;
+    }
+    return vector;
+}
+
+void fillVector(int** vector, int* count) {
+    int capacity = TEN, value = 0;
+    *vector = createVector(TEN);
+    *count = 0;
+
+    if (!(*vector)) {
+        printf("An error occurred while trying to allocate memory!\n");
+        exit(1);
+    }
+
+    printf("Please enter the values for the vector (enter 0 to stop):\n");
+    do {
+        scanf("%d", &value);
+        if (value == 0) break;
+
+        if (*count >= capacity) {
+            capacity += TEN;
+            int* newVector = createVector(capacity);
+            if (!newVector) {
+                printf("An error occurred while trying to create a larger vector!\n");
+                free(*vector);
+                exit(1);
+            }
+            for (int i = 0; i < *count; i++) {
+                newVector[i] = (*vector)[i];
+            }
+            free(*vector);
+            *vector = newVector;
+        }
+        (*vector)[*count] = value;
+        (*count)++;
+
+    } while (value != 0);
+}
+
+void saveFile(int* vector, FILE* file, int size) {
+    for (int i = 0; i < size; i++) {
+        fprintf(file, "%d\n", vector[i]);
+    }
+}
+
+FILE* createFile() {
+    FILE* file = fopen("file.txt", "rb+");
+    if (!file) {
+        file = fopen("file.txt", "wb+");
+    }
+    return file;
+}
+
+static void printVector(int* vector, int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%d\n", vector[i]);
+    }
+    printf("\n");
+}
+
+static void freeVector(int* vector) {
+    free(vector);
+}
+
+int main() {
+    printf("Creating the vector:\n");
+    int* vector = NULL; // Inicializado como NULL para ser preenchido em fillVector
+    int size = 0;
+
+    printf("Filling the vector:\n");
+    fillVector(&vector, &size);  // Passa o endereço de vector e de size
+
+    printf("Creating a file to save the content:\n");
+    FILE* file = createFile();
+
+    if (file) {
+        printf("Saving the content in a file:\n");
+        saveFile(vector, file, size);
+        fclose(file);
+    }
+    else {
+        printf("Failed to create or open the file.\n");
+    }
+
+    printf("Printing the vector on the screen:\n");
+    printVector(vector, size);
+
+    printf("Releasing the content of the vector:\n");
+    freeVector(vector);
+
+    return 0;
+}
+
+
+arquivo.h:
+
+
+#ifndef INCLUDED_H_FAILED
+#define INCLUDED_H_FAILED
+
+#include <stdio.h>
+
+
+// Funções para manipulação do vetor
+int* createVector(int);
+void fillVector(int**, int*);
+void saveFile(int*, FILE*,int);
+FILE* createFile();
+static void printVector(int*,int);
+static void freeVector(int*);
+
+#endif // INCLUDED_H_FAILED
+
