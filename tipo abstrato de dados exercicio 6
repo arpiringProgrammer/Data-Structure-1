@@ -1,0 +1,154 @@
+Failed.c:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include "Failed.h"
+
+
+/*
+) Crie um TAD que represente os numeros racionais e que possua as seguintes funções:
+a) cria racional;
+b) destroi racional;
+c) soma racionais;
+d) multiplica racionais;
+e) subtrae racionais;
+f) divide racionais;
+g) testa se sao iguais
+*/
+
+typedef Racional* racional;
+
+void inicializeRacional(racional rac, int num) {
+	rac->number = num;
+}
+
+void destroyRacional(racional rac) {
+	free(rac);
+}
+
+double sumRacional(racional rac1,racional rac2) {
+	return rac1->number + rac2->number;
+}
+
+double multiplyRacional(racional rac1, racional rac2) {
+	return rac1->number * rac2->number;
+}
+
+double subtractRacional(racional rac1, racional rac2) {
+	return rac1->number - rac2->number;
+}
+
+double divideRacional(racional rac1, racional rac2) {
+	if (rac2->number == 0)
+		exit(1);
+	else
+		return rac1->number / rac2->number;
+}
+
+int equalTest(racional rac1, racional rac2) {
+	return rac1->number == rac2->number ? 0 : 1;
+}
+
+double getNumber(racional rac) {
+	return rac->number;
+}
+
+void setNumber(racional rac, int num) {
+	rac->number = num;
+}
+
+void printEquations(racional rac1,racional rac2) {
+	printf("\n1º number:%lf\n", getNumber(rac1));
+	printf("\n2° number:%lf\n", getNumber(rac2));
+	printf("\nsum of the racional:%lf\n", sumRacional(rac1,rac2));
+	printf("\nmultiplication of the numbers:%lf\n", multiplyRacional(rac1, rac2));
+	printf("\nsubtraction of the numbers:%lf\n",subtractRacional(rac1,rac2));
+	printf("\ndivision of the numbers:%lf\n", divideRacional(rac1, rac2));
+	printf("\n are numbers equal??? 0 - yes, 1 - no: %d\n", equalTest(rac1, rac2));
+}
+
+Failed.h:
+
+#ifndef INCLUDED_H_FAILED
+#define INCLUDED_H_FAILED
+
+/*
+) Crie um TAD que represente os numeros racionais e que possua as seguintes funções:
+a) cria racional;
+b) destroi racional;
+c) soma racionais;
+d) multiplica racionais;
+e) subtrae racionais;
+f) divide racionais;
+g) testa se sao iguais
+*/
+
+typedef struct {
+	double number;
+}Racional;
+
+typedef Racional* racional;
+
+void inicializeRacional(racional, int);
+
+void destroyRacional(racional);
+
+double sumRacional(racional, racional);
+
+double multiplyRacional(racional, racional);
+
+double subtractRacional(racional, racional);
+
+double divideRacional(racional, racional);
+
+int equalTest(racional, racional);
+
+double getNumber(racional);
+
+void setNumber(racional, int);
+
+void printEquations(racional,racional);
+
+
+#endif // INCLUDED_H_FAILED
+
+main.c:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include "Failed.h"
+
+typedef Racional* racional;
+
+int main() {
+	
+	racional rac1 = (racional)malloc(sizeof(Racional));
+	if (!rac1) 
+		exit(1);
+
+	racional rac2 = (racional)malloc(sizeof(Racional));
+	if (!rac2)
+		exit(1);
+
+	inicializeRacional(rac1, 0);
+	inicializeRacional(rac2, 0);
+
+	setNumber(rac1, 1);
+	setNumber(rac2, 2);
+
+	printEquations(rac1, rac2);
+
+	setNumber(rac1, 10);
+	setNumber(rac2, 20);
+
+	printEquations(rac1, rac2);
+
+	destroyRacional(rac1);
+	destroyRacional(rac2);
+
+	return 0;
+}
