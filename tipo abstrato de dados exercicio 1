@@ -1,68 +1,123 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include "Failed.h"
+
+
 /*
 1) Implemente um TAD Retangulo. Um retângulo tem os atributos altura e largura, uma função para
 inicializar estes atributos com valores passados como parâmetro, funções que calculem e retornem o
 perímetro e a área do retângulo e uma função que imprime as informações do retângulo (altura,
-largura, perímetro e área). Em seguida, faça um programa para testar o seu TAD.
+largura, perímetro e área). Em seguida, faça um programa para testar o seu TAD
+*/
 
---arquivo.c--
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include "Oslon.h"
+typedef Rectangle* rectangle;
 
-void createRectangle(Rectangle* r, int b, int h) {
-	r->base = b;
+void inicializeRectangle(rectangle r, int h, int w) {
+	r->height = h;
+	r->width = w;
+}
+
+int perimeter(rectangle r) {
+	return 2 * (r->height + r->width);
+}
+
+int area(rectangle r) {
+	return r->height * r->width;
+}
+
+void printInfo(rectangle r) {
+	printf("\nheight:%d\n", getHeight(r));
+	printf("\nwidth:%d\n", getWidth(r));
+	printf("\nperimeter:%d\n", perimeter(r));
+	printf("\narea:%d\n",area(r));
+}
+
+void destroy(rectangle r) {
+	free(r);
+}
+
+void setHeight(rectangle r,int h) {
 	r->height = h;
 }
 
-float calculatePerimeter(Rectangle* r) {
-	return 2 * (r->base + r->height);
+void setWidth(rectangle r,int w) {
+	r->width = w;
 }
 
-float calculateArea(Rectangle* r) {
-	return r->base * r->height;
+int getHeight(rectangle r) {
+	return r->height;
 }
 
-void showResults(Rectangle* r) {
-	printf("value of the base:%.2f \n",r->base);
-	printf("value of the height:%.2f \n",r->height);
-	printf("Perimeter:%.2f \n",calculatePerimeter(r));
-	printf("area:%.2f \n",calculateArea(r));
+int getWidth(rectangle r) {
+	return r->width;
 }
 
 --arquivo.h--
 
-#pragma once
+#ifndef INCLUDED_H_FAILED
+#define INCLUDED_H_FAILED
 
 typedef struct {
-	float base;
-	float height;
+	int height;
+	int width;
 }Rectangle;
 
-void createRectangle(Rectangle* r, int b, int h);
+typedef Rectangle* rectangle;
 
-float calculatePerimeter(Rectangle* r);
+void inicializeRectangle(rectangle, int, int);
 
-float calculateArea(Rectangle* r);
+int perimeter(rectangle);
 
-void showResults(Rectangle* r);
+int area(rectangle);
+
+void printInfo(rectangle);
+
+void destroy(rectangle);
+
+void setHeight(rectangle, int);
+
+void setWidth(rectangle , int );
+
+int getHeight(rectangle);
+
+int getWidth(rectangle);
+
+
+#endif // INCLUDED_H_FAILED
 
 --main.c--
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Oslon.h"
+#include <math.h>
+#include "Failed.h"
+
+
 
 int main() {
+	
+	rectangle rec = (rectangle)malloc(sizeof(Rectangle));
+	if (rec == NULL) {
+		printf("an error ocurried while trying to open.\n");
+		return 1;
+	}
 
-  Rectangle rec;
-  
-  createRectangle(&rec, 5.0, 10.0);
+	inicializeRectangle(rec, 1, 2);
 
-  showResults(&rec);
+	printInfo(rec);
 
-return 0;
+	setHeight(rec, 4);
+
+	setWidth(rec, 5);
+
+	printInfo(rec);
+
+	destroy(rec);
+
+	return 0;
 }
 
