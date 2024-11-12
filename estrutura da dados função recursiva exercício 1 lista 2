@@ -1,0 +1,64 @@
+/*
+Implemente uma função recursiva para calcular o maior e o menor valor em um 
+vetor de inteiros. Um programa para testar tal função também deve ser 
+implementado.
+*/
+
+Pedagogical.c:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "Pedagogical.h"
+
+
+void biggerSmallerValue(int* vector,int* biggest,int* smallest,int size) {
+
+	if (size == 1) {
+		*biggest = vector[0];
+		*smallest = vector[0];
+		return;
+	}
+
+	return biggerSmallerValue(vector, biggest, smallest, size - 1);
+
+	if (vector[size - 1] > *biggest) {
+		*biggest = vector[size - 1];
+	}
+
+	if (vector[size - 1] < *smallest) {
+		*smallest = vector[size - 1];
+	}
+}
+
+Pedagogical.h:
+
+#ifndef INCLUDED_H_PEDAGOGICAL
+#define INCLUDED_H_PEDAGOGICAL
+
+void biggerSmallerValue(int*,int*,int*,int);
+
+#endif //INCLUDED_H_PEDAGOGICAL
+
+main.c:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int main() {
+
+	int vector[] = {3,1,9,5,7};
+
+	int size = sizeof(vector) / sizeof(vector[0]);
+
+	int biggest, smallest;
+
+	biggerSmallerValue(vector,0,0,size);
+
+	printf("Maior valor: %d\n", biggest);
+
+	printf("Menor valor: %d\n", smallest);
+
+	return 0;
+}
