@@ -52,7 +52,7 @@ int main() {
 
 	int size = sizeof(vector) / sizeof(vector[0]);
 
-	int biggest, smallest;
+	int biggest = 0, smallest = 0;
 
 	biggerSmallerValue(vector,0,0,size);
 
