@@ -1,0 +1,46 @@
+/*
+4) A função de Akermann é definida da seguinte maneira:
+Escreva uma função recursiva que recebe inteiros não negativos m e n e calcule A(m,n).
+*/
+
+#include <stdio.h>
+
+// Função de Ackermann
+int funcaoAkermann(int m, int n) {
+    if (m == 0) {
+        return n + 1;
+    }
+    
+    if (m > 0 && n == 0) {
+        return funcaoAkermann(m - 1, 1);
+    }
+    
+    if (m > 0 && n > 0) {
+        return funcaoAkermann(m - 1, funcaoAkermann(m, n - 1));
+    }
+    
+    // Retorno padrão para evitar warnings
+    return -1;
+}
+
+int main() {
+    int m, n;
+
+    printf("Digite o valor de m (não-negativo): ");
+    scanf("%d", &m);
+
+    printf("Digite o valor de n (não-negativo): ");
+    scanf("%d", &n);
+
+    // Validando se m e n são não-negativos
+    if (m < 0 || n < 0) {
+        printf("Os valores de m e n devem ser não-negativos!\n");
+        return 1;
+    }
+
+    // Calculando a função de Ackermann
+    int resultado = funcaoAkermann(m, n);
+    printf("A(%d, %d) = %d\n", m, n, resultado);
+
+    return 0;
+}
