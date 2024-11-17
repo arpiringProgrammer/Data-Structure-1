@@ -1,0 +1,40 @@
+/*
+5) Faça uma função recursiva soma que, dados dois números inteiros não negativos a e b,
+retorne a + b, usando apenas as operações mais simples de incrementar 1.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+/*
+5) Faça uma função recursiva soma que, dados dois números 
+inteiros não negativos a e b,
+retorne a + b, usando apenas as operações mais simples de 
+incrementar 1.
+*/
+
+int sumValues(int a,int b) {
+    if(b == 0) {
+        return a;
+    }
+    
+    return sumValues(a + 1, b - 1);
+}
+
+int main() {
+    
+    int a = 0, b = 0;
+    
+    printf("Inform the value of the %d number:\n",a + 1);
+    scanf("%d",&a);
+    
+    printf("Inform the value of the %d number:\n",b + 1);
+    scanf("%d",&b);
+    
+    int result = sumValues(a,b);
+    
+    printf("The value of the sum of the number %d and %d is %d",a,b,result);
+
+    return 0;
+}
