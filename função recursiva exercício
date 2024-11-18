@@ -1,0 +1,50 @@
+/*
+7) Faça uma função recursiva que calcule o valor da série S 
+descrita a seguir para um
+valor n >0.
+S = 1 + 1/2! + 1/3! + ... 1/n!
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+/*
+7) Faça uma função recursiva que calcule o valor da série S 
+descrita a seguir para um
+valor n >0.
+S = 1 + 1/2! + 1/3! + ... 1/n!
+
+*/
+
+// Função recursiva para calcular o fatorial de um número
+double fatorial(int n) {
+    if (n == 0 || n == 1) {
+        return 1; // Caso base: fatorial de 0 ou 1 é 1
+    }
+    return n * fatorial(n - 1);
+}
+
+// Função recursiva para calcular o valor da série S
+double calculateSerie(int n) {
+    if (n == 1) {
+        return 1.0; // Caso base: quando n == 1, o valor da série é 1
+    }
+    return (1.0 / fatorial(n)) + calculateSerie(n - 1); // Soma o termo atual com a série anterior
+}
+
+
+int main()
+{
+    int num = 0;
+    printf("please inform a value for the S series:\n");
+    scanf("%d,",&num);
+    
+    if(num <= 0) {
+        printf("The value must be higher than zero.\n");
+        return 1;
+    }
+    
+    printf("the result of the serie S for %d is: %lf\n",num,calculateSerie(num));
+    return 0;
+}
