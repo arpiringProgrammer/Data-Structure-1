@@ -1,0 +1,42 @@
+/*
+6) Faça uma função recursiva para calcular o mdc de dois inteiros positivos. Sabe-se que:
+mdc(x,y) = y se y<=x e x%y igual a zero
+mdc(x,y) = mdc(y,x) se x<y mdc(x,y) =
+mdc(x, x % y)
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int recursiveFunction(int x, int y, int value) {
+    if(x % value == 0 && y % value == 0) {
+        return value;
+    } else {
+        return recursiveFunction(x, y, value - 1);
+    }
+}
+
+int main()
+{
+    int x = 0, y = 0,value = 0;
+    printf("please inform the first value:\n");
+    scanf("%d",&x);
+    
+    printf("please inform the second value:\n");
+    scanf("%d",&y);
+    
+    if(x >= y) {
+        value = y;
+    } else if(x <= y){
+        value = x;
+    }
+
+    if(x < 0 || y < 0) {
+        printf("values below zero are not allowed!!!\n");
+    } else {
+        printf("the MCD (minimum commom divisor) of both numbers %d and %d is %d.\n",x, y, recursiveFunction(x, y, value));
+    }
+    
+    return 0;
+}
