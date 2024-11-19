@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+/*
+15) Implemente uma função que calcule o o maior e o menor 
+valor em um vetor de inteiros.
+*/
+
+void biggestSmallestNumber(int vector[],int* biggest, int* smallest, int size, int position) {
+    if(position >= size) {
+        return;
+    }
+    
+    if(vector[position] > *biggest) {
+        *biggest = vector[position];
+    }
+    
+    if(vector[position] < *smallest) {
+        *smallest = vector[position];
+    }
+    
+    return biggestSmallestNumber(vector,biggest,smallest,size,position + 1);
+}
+
+int main() {
+   
+  int vector[] = {1,2,3,4,5,6,7,8,9},biggest = vector[0],smallest = vector[0];
+  int size = sizeof(vector) / sizeof(vector[0]);
+  
+  biggestSmallestNumber(vector,&biggest,&smallest,size,0);
+  
+  printf("The biggest and the smallest number of this vector is respectivelly %d and %d.",smallest,biggest);
+  
+  return 0;
+}
