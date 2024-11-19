@@ -1,0 +1,55 @@
+/*
+) Implemente o método de ordenação as seleção direta de forma recursiva.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int verifyOrder(int arr[], int size, int position) {
+    int temp = position;
+    for(int i = position + 1; i < size; i++) {
+        if(arr[i] < arr[temp]) {
+            temp = i;
+        }
+    }
+    return temp;
+}
+
+void implementOrder(int arr[], int size, int position) {
+    if(position >= size - 1) {
+        return;
+    }
+    
+  int place = verifyOrder(arr, size, position);
+  
+  if(place != position) {
+      int temp = arr[position];
+      arr[position] = arr[place];
+      arr[place] = temp;
+  }
+  
+  return implementOrder(arr, size, position + 1);
+}
+
+
+int main() {
+    
+  int arr[] = {13,38,39,10,2,9};
+  int size = sizeof(arr) / sizeof(arr[0]);
+  
+  printf("printring vector:\n");
+  for(int i = 0; i < size; i++) {
+      printf("%d\t",arr[i]);
+  }
+  
+  printf("\n\nputting the vector in order:\n");
+  
+  implementOrder(arr, size, 0);
+  
+  for(int i = 0; i < size; i++) {
+      printf("%d\t",arr[i]);
+  }
+
+  return 0;
+}
