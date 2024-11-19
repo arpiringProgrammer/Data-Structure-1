@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+/*
+16) Escreva uma função recursiva que determine quantas vezes 
+um dígito K ocorre em um
+número natural N. Por exemplo, o dígito 2 ocorre 3 vezes em
+762021192.
+*/
+
+int howManyTimes(int vector[], int times, int value, int size, int count) {
+    if(count >= size) {
+        return times;
+    }
+    
+    if(vector[count] == value) {
+        return howManyTimes(vector,times + 1,value,size,count + 1);
+    } else {
+        return howManyTimes(vector,times,value,size,count + 1);
+    }
+}
+
+int main() {
+  char number[100];
+  int individualNumber = 0;
+  
+  printf("please inform a number:\n");
+  scanf("%s", number);
+  
+  printf("now inform one number that belong to the number informed before:\n");
+  scanf("%d",&individualNumber);
+  
+  int size = strlen(number);
+  int* vector = (int*)malloc(sizeof(int) * size);
+  
+  for(int i = 0; i < size; i++) {
+      vector[i] = number[i] - '0';
+  }
+  
+  int times = howManyTimes(vector,times,individualNumber,size,0);
+  
+  if(times == 0) {
+    printf("the individual number you informed is not located in the first number you informed!\n");
+  } else {
+    printf("the number of times that the number %d appeared in the number %s is %d.\n",individualNumber,number,times);
+  }
+  return 0;
+}
