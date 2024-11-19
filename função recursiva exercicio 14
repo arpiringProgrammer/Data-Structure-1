@@ -1,0 +1,34 @@
+/*
+14) Implemente uma função recursiva Dec2Bin que dado um número decimal imprima a sua
+representação binária corretamente.
+*/
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+void Dec2Bin(int n) {
+    if(n == 0) {
+        return;
+    }
+    
+  Dec2Bin(n/2);
+  
+  printf("%d",n%2);
+}
+
+
+int main() {
+    int value = 0;
+    printf("inform the recursive value you want to find:\n");
+    scanf("%d",&value);
+    
+  if(value == 0) {
+      printf("0");
+  } else {
+      printf("the binary representation of %d is ",value);
+      Dec2Bin(value);
+  }
+  
+  return 0;
+}
