@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+/*
+17) A multiplicação de dois números inteiros pode ser feita através de somas sucessivas. Escreva
+uma função recursiva multiplica(n1,n2) que calcule a multiplicação de dois inteiros.
+*/
+
+int multiplyNumber(int n1, int n2) {
+    if(n2 == 1) {
+        return n1;
+    }
+    
+    return n1 + multiplyNumber(n1,n2 - 1);
+}
+
+
+int main() {
+  printf("please inform the first number you want to multiply:\n");
+  int n1 = 0;
+  scanf("%d",&n1);
+  
+  printf("please inform the second number you want to multiply:\n");
+  int n2 = 0;
+  scanf("%d",&n2);
+  
+  printf("The result of the multiplication of the numbers %d and %d is %d.\n",n1,n2,multiplyNumber(n1,n2));
+  
+  return 0;
+}
