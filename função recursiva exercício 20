@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+/*
+20) Faça uma função recursiva que receba um número inteiro positivo N e retorne o
+super-fatorial desse número. O superfatorial de um número N é definida pelo produto
+dosprimeiros fatoriais de N. Assim, o superfatorial de 4 é
+sf(4) = 1! * 2! * 3! * 4! = 288
+*/
+
+int factorial(int n) {
+    if(n <= 1) {
+        return 1;
+    }
+    
+  return n * factorial(n - 1);
+}
+
+int superFactorial(int n) {
+    if(n <= 1) {
+        return 1;
+    }
+    
+  return factorial(n) * superFactorial(n - 1);
+}
+
+int main()
+{
+    printf("inform the value to find its super factorial:\n");
+    int value = 0;
+    scanf("%d",&value);
+    
+  printf("The value of the super factorial of %d is %d.\n",value,superFactorial(value));
+  
+  return 0;
+}
