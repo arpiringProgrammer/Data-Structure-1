@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+/*
+19) Faça uma função recursiva que calcule o valor da série S 
+descrita a seguir para um valor n > 0
+a ser fornecido como parâmetro para a mesma.
+*/
+
+float serieS(int n) {
+    if(n == 1) {
+        return 1;
+    }
+    
+    return (1.0 + n * n) / n + serieS(n - 1);
+}
+
+int main()
+{
+    printf("inform a value to the serie S:\n");
+    float value = 0.0;
+    scanf("%f",&value);
+    
+    if(value <= 0) {
+        printf("values under 0 are not allowed!\n");
+        return 1;
+    }
+    
+    printf("The result of the serie S with the value %.1f is %f.\n",value,serieS(value));
+    
+    return 0;
+}
