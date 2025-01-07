@@ -1,0 +1,37 @@
+/*
+1) Escrever uma função para verificar se um dado item está presente em uma pilha. Em
+caso positivo, o algoritmo deve fornecer também a posição do item na pilha,
+considerando o topo como posição 1. A pilha deve permanecer a mesma após a
+execução da função.
+*/
+
+
+
+int verificaItemVetor(pilha p, TElemento e) {
+    pilha p1 = criaPilha();
+    TElemento campo;
+    int pos = 0;
+
+    while (!pilhaVazia(p)) {
+        pop(p, &campo);
+        pos++;
+        push(p1, campo);
+        if (strcmp(campo.chave, e.chave) == 0) {
+            while (!pilhaVazia(p1)) {
+                pop(p1, &campo);
+                push(p, campo);
+            }
+            return pos;
+        }
+    }
+
+    while (!pilhaVazia(p1)) {
+        pop(p1, &campo);
+        push(p, campo);
+    }
+
+    return 0;pop(p1, &campo);
+    push(p, campo);
+    }
+
+    return 0;
