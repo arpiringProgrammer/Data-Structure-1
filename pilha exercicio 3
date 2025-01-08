@@ -1,0 +1,45 @@
+/*
+3) Uma palavra é um palíndromo se tem a mesma sequência de letras, quer seja lida da
+esquerda para a direita ou da direita para a esquerda (exemplo: arara). Implemente uma
+função para verificar se uma palavra é um palíndromo usando o TAD pilha
+*/
+
+
+
+
+
+int palindromo(pilha p, TElemento *e) {
+    pilha p1 = criaPilha();
+    pilha p3 = criaPilha();
+    TElemento e1;
+    TElemento e2;
+    int dif = 0;
+    int tamanho = tamanhoPilha(p);
+
+    for (int c = 0; c < tamanho / 2; c++) {
+        pop(p, &e1);
+        push(p1, e1);
+        push(p3, e1);
+    }
+
+    if (tamanho % 2 != 0) {
+        pop(p, &e1);
+        push(p3, e1);
+    }
+
+    for (int c = 0; c < tamanho / 2; c++) {
+        pop(p, &e1);
+        pop(p1, &e2);
+        if (e1.chave != e2.chave) {
+            dif++;
+        }
+        push(p3, e1);
+    }
+
+    for (int c = 0; c < tamanho; c++) {
+        pop(p3, &e1);
+        push(p, e1);
+    }
+
+    return dif == 0 ? 1 : 0;
+}
