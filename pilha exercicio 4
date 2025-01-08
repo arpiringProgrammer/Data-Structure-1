@@ -1,0 +1,37 @@
+/*
+4) Escreva uma função para determinar se uma cadeia de caracteres (string) é da forma:
+xCy
+onde x e y são cadeias de caracteres compostas por letras ‘A’ e/ou ‘B’, e y é o inverso
+de x. Isto é, se x = “ABABBA”, y deve equivaler a “ABBABA”.
+*/
+
+
+int funcaoXCY(pilha p1, pilha p2) {
+    pilha p3 = criaPilha();
+    pilha pAux = criaPilha();
+    TElemento e1;
+    TElemento e2;
+    int pilhaSize = p1->tamanho;
+    int xCy = 0;
+
+    while (!pilhaVazia(p1)) {
+        pop(p1, &e1);
+        push(p3, e1);
+    }
+
+    while (!pilhaVazia(p2)) {
+        pop(p2, &e1);
+        pop(p3, &e2);
+        if (e1.chave != e2.chave) {
+            xCy++;
+        }
+        push(pAux, e1);
+    }
+
+    while (!pilhaVazia(pAux)) {
+        pop(pAux, &e1);
+        push(p1, e1);
+        push(p2, e1);
+    }
+    return xCy > 0 ? 1 : 0;
+}
