@@ -1,0 +1,82 @@
+/*
+10) Implemente os TAD's pilha usando o TAD lista
+*/
+
+typedef struct Nodo {
+	TElemento info;
+	struct Nodo* prox;
+}TNodo;
+
+struct TPilha {
+	TNodo* topo;
+	int tamanho;
+};
+
+typedef struct TPilha* pilha;
+
+pilha criaPilha() {
+	pilha p = (pilha)malloc(sizeof(struct TPilha));
+	if (p) {
+		p->topo = NULL;
+		p->tamanho = 0;
+		return p;
+	}
+	exit(EXIT_FAILURE);
+}
+
+void terminaPilha(pilha p) {
+	TNodo* temp;
+
+	while (p->topo != NULL) {
+		temp = p->topo;
+		p->topo = p->topo->prox;
+		free(temp);
+	}
+	free(p);
+}
+
+int push(pilha p, TElemento e) {
+	TNodo* node = (TNodo*)malloc(sizeof(TNodo));
+	if (!node) {
+		return 0;
+	}
+
+	node->info = e;
+	if (p->tamanho > 0) {
+		node->prox = p->topo;
+	}
+	p->topo = node;
+	p->tamanho++;
+
+	return 1;
+}
+
+int pop(pilha p, TElemento* e) {
+	if (p->topo) {
+		return 0;
+	}
+	TNodo* pointer = p->topo;
+	*e = pointer->info;
+	p->topo = p->topo->prox;
+	free(pointer);
+	p->tamanho--;
+
+	return 1;
+}
+
+int pilhaCheia(pilha p) {
+	TNodo* pointer = (TNodo*)malloc(sizeof(TNodo));
+	if (!pointer) {
+		return 0;
+	}
+	free(pointer);
+	return 1;
+}
+
+int pilhaVazia(pilha p) {
+	return p->tamanho == 0 ? 1 : 0;
+}
+
+int tamanhoPilha(pilha p) {
+	return p->tamanho;
+}
