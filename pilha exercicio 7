@@ -1,0 +1,32 @@
+/*
+7) 4. Implemente um programa que leia 15 números e proceda, para cada um deles,
+como segue:
+• se o número for par, insira-o na pilha;
+• se o número lido for ímpar, retire um número da pilha;
+• Ao final, esvazie a pilha imprimindo os elementos.
+*/
+
+
+void insertEvenNumbers() { 
+    pilha* p = criaPilha(); 
+    TElemento e; 
+    int num; 
+    for (int c = 0; c < 15; c++) { 
+        printf("%dº número:\t", c + 1); 
+        scanf("%d", &num); 
+        if (num % 2 == 0) { 
+            e.chave = num; 
+            push(p, e); 
+        } else { 
+            if (!pilhaVazia(p)) { 
+                pop(p, &e); 
+            } 
+        } 
+    } 
+    printf("Esvaziando a pilha:\n"); 
+    while (!pilhaVazia(p)) { 
+        pop(p, &e); 
+        printf("%d\n", e.chave); 
+    } 
+    terminaPilha(p); 
+}
