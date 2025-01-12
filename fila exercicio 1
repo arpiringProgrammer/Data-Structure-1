@@ -1,0 +1,27 @@
+1) Escreva uma função para inverter a ordem dos elementos de uma fila, usando uma
+pilha como estrutura auxiliar
+
+int invertOrdem(fila f) {
+    TElemento e;
+    ElementStack es;
+    stack s = createStack();
+
+    if (filaVazia(f)) {
+        return 0;
+    }
+
+    while (f->inicio) {
+        desenfileira(f, &e);
+        es.key = e.chave;
+        push(s, es);
+    }
+
+    while (s->top) {
+        pop(s, &es);
+        e.chave = es.key;
+        enfileira(f, e);
+    }
+
+    free(s);
+    return 1;
+}
