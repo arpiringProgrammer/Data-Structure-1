@@ -1,0 +1,102 @@
+/*
+2) Faça um programa para simular as filas de um banco (considere 5 filas de
+atendimento). O laço do programa principal deve conter os seguintes comandos:
+ Sortear (rand) uma das filas e adicionar um cliente novo que chegou ao banco;
+ Sortear (rand) uma das filas para ser atendido um cliente. Retirar um cliente da
+fila que foi sorteada para ser atendida;
+ Mostrar na tela o estado das filas, ou seja, a quantidade de clientes que tem em
+cada uma das filas;
+*/
+
+void simulateBankLines() {
+    srand(time(NULL));
+    TElemento e;
+    fila f1 = criaFila();
+    fila f2 = criaFila();
+    fila f3 = criaFila();
+    fila f4 = criaFila();
+    fila f5 = criaFila();
+
+    int random = 0,choice = 0,min = 1, max = 5;
+    do {
+        printf("1 - add costumer:\n");
+        printf("2 - serve costumer:\n");
+        printf("3 - show quantity of people in the line:\n");
+        printf("4 - leave program:\n");
+
+        scanf_s("%d", &choice);
+        e.chave = 1;
+
+        switch (choice) {
+        case 1:
+            random = min + rand() % (max - min + 1);
+
+            if (random == 1) enfileira(f1, e);
+            else if (random == 2) enfileira(f2, e);
+            else if (random == 3) enfileira(f3, e);
+            else if (random == 4) enfileira(f4, e);
+            else if (random == 5) enfileira(f5, e);
+            break;
+
+        case 2:
+            random = min + rand() % (max - min + 1);
+
+            if (random == 1) {
+                if (desenfileira(f1, &e)) printf("costumer served sucessfully!!\n");
+                else printf("the file is empty!!\n");
+            }
+            else if (random == 2) {
+                if (desenfileira(f2, &e)) printf("costumer served sucessfully!!\n");
+                else printf("the line is empty!!\n");
+            }
+            else if (random == 3) {
+                if (desenfileira(f3, &e)) printf("costumer served sucessfully!!\n");
+                else printf("the line is empty!!\n");
+            }
+            else if (random == 4) {
+                if (desenfileira(f4, &e)) printf("costumer served sucessfully!!\n");
+                else printf("the line is empty!!\n");
+            }
+            else if (random == 5) {
+                if (desenfileira(f5, &e)) printf("costumer served sucessfully!!\n");
+                else printf("the line is empty!!\n");
+            }
+            break;
+
+        case 3:
+            showLines(f1, f2, f3, f4, f5);
+            break;
+
+        case 4:
+            printf("finalizing program....\n");
+            break;
+
+        default:
+            printf("invalid option!!! try again.\n");
+            break;
+
+        }
+
+
+        } while (choice != 4);
+
+        terminaFila(f1);
+        terminaFila(f2);
+        terminaFila(f3);
+        terminaFila(f4);
+        terminaFila(f5);
+
+   }
+
+void showLines(fila f1, fila f2, fila f3, fila f4, fila f5) {
+    
+    printf("%d people in the first line.\n", tamanhoFila(f1));
+
+    printf("%d people in the second line.\n", tamanhoFila(f2));
+
+    printf("%d people in the third line.\n", tamanhoFila(f3));
+
+    printf("%d people in the forth line.\n", tamanhoFila(f4));
+
+    printf("%d people in the fifth line.\n", tamanhoFila(f5));
+}
