@@ -1,0 +1,83 @@
+/*
+4) Considere que um estacionamento seja composto por uma única entrada capaz de
+guardar uma quantidade infinita de carros. Como só existe apenas uma entrada/saída no
+estacionamento. Se chegar um cliente para retirar um carro que não seja o mais
+próximo da saída, todos os carros bloqueando seu caminho sairão do estacionamento. O
+carro do cliente será retirado do estacionamento, e os outros carros voltarão a ocupar a
+mesma sequência inicial. Escreva um programa que processe um conjunto de chegadas
+e saídas, identificadas, respectivamente, pelas letras E e S, e o número da placa do
+carro. O programa deve imprimir uma mensagem sempre que um carro chegar ou sair.
+Quando um carro sair do estacionamento, a mensagem deverá incluir o número de vezes
+em que o carro foi manobrado para fora do estacionamento para permitir que os outros
+carros saíssem.
+*/
+
+
+
+
+void askCostumer(char* word, int* carPlate) {
+    printf("E for enter and S for leaving:\n");
+    scanf("%c", word);
+    printf("inform the plate of the car:\n");
+    scanf("%d", carPlate);
+}
+
+void insertCarIntoLine(int carPlate, fila fileira) {
+    TElemento e;
+    e.chave = carPlate;
+    enfileira(fileira, e);
+    printf("the car was inserted into the line!!\n");
+}
+
+int takeOffCar(fila fileira, int carPlate) {
+    TElemento e;
+    fila momentary = criaFila();
+    int equal = 0;
+    int times = 0;
+    
+    while (fileira->tamanho > 0) {
+        desenfileira(fileira, &e);
+        times++;
+        if (e.chave == carPlate) {
+            equal++;
+            break;
+        }
+        enfileira(momentary, e);
+    }
+    if (equal == 0) {
+        printf("The car plate you informed does not exist!!\n");
+        terminaFila(momentary);
+        return 0;
+    }
+    else {
+        printf("The car had to make %d move or moves to leave the parking lot.\n",times);
+    }
+    while(momentary->tamanho > 0) {
+        desenfileira(momentary, &e);
+        enfileira(fileira, e);
+    }
+    terminaFila(momentary);
+    return 1;
+}
+
+void manageParkingLot() {
+    TElemento e;
+    char word;
+    int carPlate = 0;
+    fila fileira = criaFila();
+    int choice = 0;
+    do {
+        askCostumer(&word, &carPlate);
+
+        if (word == 'E') {
+            insertCarIntoLine(carPlate, fileira);
+        }
+        else if ('S' == word) {
+            takeOffCar(carPlate, fileira);
+            printf("Want to end program??? 1 - yes, 2 - no!!\n");
+            scanf("%d", &choice);
+        }
+    } while (choice != 1);
+
+    terminaFila(fileira);
+}
