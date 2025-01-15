@@ -1,0 +1,65 @@
+/*
+2) Implementar o problema de Josephus utilizando o TAD lista com duplamnete encadeada
+circular. Defina a estrutura de dados para resolver esse problema.
+Problema: um grupo de soldados está cercado pelo inimigo e existe apenas um cavalo para a
+fuga. Decidiu-se que o soldado que será capturado, ou seja, conseguirá fugir, será definido na
+sorte, independente da patente. O processo de escolha será por eliminação, sendo que o último
+soldado a ser selecionado usuaria o cavalo para fugir. O processo de eliminação consiste em:
+organizar os soldados em volta da fogueira; escolher um soldado para iniciar a contagem e
+sortear um único número. Ao final da contagem, o soldado escolhido é eliminado e o processo é
+reiniciado a partir do próximo soldado, até só restar o soldado ganhador. A cada rodada, deve
+ser impressoos nomes dos soldados elimininados, na ordema de eliminação e os nomes dos
+soldados ainda particicipantes do jogo.
+*/
+
+
+
+int main() {
+    TElemento e;
+    srand(time(NULL));
+
+    lista list = criaLista();
+
+    for (int c = 1; c <= 5; c++) {
+        e.chave = c;
+        insereInicio(list, e);
+    }
+
+    int random;
+    while (getTamanho(list) > 1) {
+        random = (rand() % getTamanho(list)) + 1;
+        avancaPonteiro(list, random - 1);
+
+        e = list->first->info;
+        printf("Eliminando soldado %d\n", e.chave);
+        removeElemento(list, e.chave, &e);
+        printf("Soldados restantes: ");
+        imprimeLista(list);
+    }
+
+    printf("O soldado que sobreviveu é o soldado número %d.\n", list->first->info.chave);
+
+    terminaLista(list);
+    return 0;
+}
+
+
+void imprimeLista(lista l) {
+    TNodo* pointer = l->first;
+    if (!pointer) {
+        exit(EXIT_FAILURE);
+    }
+
+    for (int c = 1; c <= l->tamanho; c++) {
+        printf("%d soldier:\n", pointer->info.chave);
+        pointer = pointer->prox;
+    }
+}
+
+void avancaPonteiro(lista l, int passos) {
+    TNodo* pointer = l->first;
+    for (int c = 1; c <= passos; c++) {
+        pointer = pointer->prox;
+    }
+}
+
