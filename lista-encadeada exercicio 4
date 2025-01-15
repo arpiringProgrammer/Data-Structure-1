@@ -33,5 +33,8 @@ int changeNumber(lista l, int e1, int e2) {
       }
       printf("none of the values was found in the list.\n");
       return 0;
+  } else {
+    printf("the numbers you informed are the same!!!\n");
+    return 1;
   }
 }
