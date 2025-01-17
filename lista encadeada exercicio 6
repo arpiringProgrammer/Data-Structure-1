@@ -1,0 +1,48 @@
+
+/*
+6) Escreva uma rotina, inssub(l1,i1,l2,i2,len) para inserir os elementos da lista l2, começando no
+elemento i2 e continuando por len elementos na lista l1, começando na posição i1. Nenhum
+elemento da lista l1 deverá ser removido ou substituído. Se i1 > length(l1) + 1 (onde length(l1)
+indica o número de nós na lista), ou se i2 + len – 1 > length(l2), ou se i1 < 1, ou se i2 < 1, imprima
+uma mensagem de erro. A lista l2 deve permanecer inalterada.
+*/
+
+int inssub(lista l1, int i1, lista l2, int i2, int len) {
+    // Verifica se os índices são válidos
+    if (i1 < 1 || i2 < 1 || i1 > getTamanho(l1) + 1 || i2 + len - 1 > getTamanho(l2)) {
+        printf("Erro: índices inválidos\n");
+        return 0;
+    }
+
+    // Obtém o nó inicial na lista l2
+    TNodo* p2 = l2->first;
+    for (int j = 1; j < i2; j++) {
+        p2 = p2->next;
+    }
+
+    // Obtém o nó inicial na lista l1
+    TNodo* p1 = l1->first;
+    for (int j = 1; j < i1; j++) {
+        p1 = p1->next;
+    }
+
+    // Insere os elementos da lista l2 na lista l1
+    for (int k = 0; k < len; k++) {
+        TNodo* newNode = (TNodo*)malloc(sizeof(TNodo));
+        if (!newNode) {
+            printf("Erro: alocação de memória falhou\n");
+            return;
+        }
+        newNode->info = p2->info;
+        newNode->next = p1->next;
+        newNode->prior = p1;
+        if (p1->next != NULL) {
+            p1->next->prior = newNode;
+        }
+        p1->next = newNode;
+        p2 = p2->next;  // Avança para o próximo nó de p2
+        p1 = p1->next;  // Atualiza p1 para o último nó inserido
+        l1->tamanho++;
+    }
+    return 1;
+}
