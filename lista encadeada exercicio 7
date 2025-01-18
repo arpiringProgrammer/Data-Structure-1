@@ -1,0 +1,58 @@
+/*
+7) Escreva uma função em C, search(l,x), que receba um ponteiro l para uma lista de inteiros e um
+inteiro x, e retorne um ponteiro para um nó contendo x, se existir, e o ponteiro nulo, caso contrário.
+Escreva outra função, searchinsert(l,x), que inclua x em l se ele não for encontrado, e retorne sempre
+um ponteiro para um nó contendo x.
+*/
+
+
+lista search(lista l, int x) {
+    TNodo* pointer = l->first;
+
+    if (!l->first) {
+        return NULL;
+    }
+
+    while (pointer->next) {
+        if (x == pointer->info.chave) {
+            return pointer;
+        }
+        else {
+            pointer = pointer->next;
+        }
+    }
+
+    return NULL;
+}
+
+lista searchinsert(lista l, int x) {
+    TNodo* pointer = l->first;
+    TNodo* ant = NULL;
+
+    while (pointer->next) {
+        if (x == pointer->info.chave) {
+            return pointer;
+        }
+        else {
+            ant = pointer;
+            pointer = pointer->next;
+        }
+    }
+
+    TNodo* node = (TNodo*)malloc(sizeof(TNodo));
+    if (!node) {
+        printf("Erro: falha na alocação de memória.\n");
+        return NULL;
+    }
+    node->info.chave = x;
+    node->next = NULL;
+    
+    if (!l->first) {
+        l->first = node;
+    }
+    else {
+        ant->next = node;
+    }
+
+    return node;
+}
