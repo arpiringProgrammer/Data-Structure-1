@@ -1,0 +1,45 @@
+/*
+8) Suponha que uma string de caracteres seja representada por uma lista de caracteres individuais.
+Escreva um conjunto de funções para manipular estas listas como segue (l1, l2 e list são ponteiros
+para lista representando uma string de caracteres, str é um vetor de caracteres e i1 e i2 são inteiros):
+
+a) strcnvcl(str) para converter a string de caracteres, str, numa lista. Essa função retorna
+um ponteiro para um nó de cabeçalho.
+
+b) strcnvlc(list,str) para converter uma lista em uma string de caracteres.
+
+c) strcmpl(l1,l2) para comparar duas strings de caracteres, representadas or listas. Essa
+função retorna -1 se a string de caracteres representada por l1 é menor que a string
+representada por l2; 0 se são iguais, e 1 se a string representada por l1 é maior.
+*/
+
+
+int strcmpl(lista l1, lista l2) {
+    TNodo* pointerL1 = l1->first;
+    TNodo* pointerL2 = l2->first;
+
+    if (!l1->first || !l2->first) {
+        exit(EXIT_FAILURE);
+    }
+
+    while (pointerL1 && pointerL2) {
+        if (pointerL1->info.chave > pointerL2->info.chave) {
+            return 1;
+        }
+        else if (pointerL1->info.chave < pointerL2->info.chave) {
+            return -1;
+        }
+        pointerL1 = pointerL1->next;
+        pointerL2 = pointerL2->next;
+    }
+    
+    if (pointerL1 && !pointerL2) {
+        return 1;
+    }
+    else if (!pointerL1 && pointerL2) {
+        return -1;
+    }
+    else {
+        return 0;
+    }
+}
