@@ -1,0 +1,35 @@
+/*
+10) Escreva uma função void MoveMenor(TipoLista Lista) que, dada uma lista com um número
+qualquer de elementos, acha o menor elemento da lista e o move para o começo da lista. (Obs. Não
+vale trocar apenas os campos item ou usar uma lista / fila / pilha auxiliar! Você deverá fazer a
+manipulação dos apontadores para trocar as células de posição). Qual é a ordem de complexidade da
+sua função.
+*/
+
+
+
+void MoveMenor(lista l) {
+    if (!l->first || l->tamanho == 1) {
+        exit(EXIT_FAILURE);
+    }
+    int smaller = l->first->info.chave;
+    TNodo* pointer = l->first;
+    TNodo* menor = l->first;
+    TNodo* ant = NULL;
+    TNodo* antSmall = NULL;
+
+    while (pointer) {
+        if (pointer->info.chave < smaller) {
+            smaller = pointer->info.chave;
+            menor->next = pointer;
+            antSmall = ant;
+        }
+        ant = pointer;
+        pointer = pointer->next;
+    }
+    if (smaller != l->first->info.chave) {
+        antSmall->next = menor->next;
+        menor->next = l->first;
+        l->first = menor;
+    }
+}
