@@ -40,3 +40,58 @@ int main()
     
     return 0;
 }
+
+
+second way of doing the same exercice.
+
+
+/*
+6) Faça uma função recursiva para calcular o mdc de dois inteiros positivos. Sabe-se que:
+mdc(x,y) = y se y<=x e x%y igual a zero
+mdc(x,y) = mdc(y,x) se x<y mdc(x,y) =
+mdc(x, x % y)
+
+*/
+
+int mdc(int x, int y, int divider, int minimum) {
+    if (x == 1 && y == 1) {
+        return minimum;
+    }
+
+    else if (x % divider == 0 && y % divider == 0) {
+        int multi = divider * minimum;
+        int numberX = x / divider;
+        int numberY = y / divider;
+        return mdc(numberX, numberY, divider, multi);
+    }
+
+    else if (x % divider == 0 && y % divider != 0) {
+        int numberX = x / divider;
+        return mdc(numberX,y,divider,minimum);
+    } 
+
+    else if (x % divider != 0 && y % divider == 0) {
+        int numberY = y / divider;
+        return mdc(x, numberY, divider, minimum);
+    } 
+
+    else if (x % divider != 0 && y % divider != 0) {
+        return mdc(x, y, divider + 1, minimum);
+    }
+    else {
+        return -1;
+    }
+}
+
+int main() {
+    int x = 24;
+    int y = 368;
+    int divider = 2;
+    int minimum = 1;
+
+    int result = mdc(x, y, divider, minimum);
+
+    printf("O valor do mdc dos números %d e %d é %d.\n", x, y, result);
+
+    return 0;
+}
