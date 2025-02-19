@@ -95,3 +95,33 @@ int main() {
 
     return 0;
 }
+
+terceira forma de fazer o exercicio:
+
+#include <stdio.h>
+
+int mdc(int x, int y) {
+    // Caso base: se y for menor ou igual a x e x % y for zero, retorna y
+    if (y <= x && x % y == 0) {
+        return y;
+    }
+    // Caso recursivo 1: se x for menor que y, troca os parâmetros de posição
+    else if (x < y) {
+        return mdc(y, x);
+    }
+    // Caso recursivo 2: calcula o mdc utilizando x e o resto da divisão de x por y
+    else {
+        return mdc(y, x % y);
+    }
+}
+
+int main() {
+    int a = 48, b = 18;
+    printf("MDC(%d, %d) = %d\n", a, b, mdc(a, b));
+
+    a = 56, b = 98;
+    printf("MDC(%d, %d) = %d\n", a, b, mdc(a, b));
+
+    return 0;
+}
+
