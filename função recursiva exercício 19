@@ -25,3 +25,34 @@ int main() {
 
     return 0;
 }
+
+SEGUNDA FORMA DE FAZER.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+/*
+20) Faça uma função recursiva que receba um número inteiro positivo N e retorne o
+super-fatorial desse número. O superfatorial de um número N é definida pelo produto
+dosprimeiros fatoriais de N. Assim, o superfatorial de 4 é
+sf (4) = 1! * 2! * 3! * 4! = 288
+*/
+
+int multiplyFatorial(int number) {
+    if (number == 1)
+        return 1;
+    int result = 1;
+    for (int c = 1; c <= number; c++) {
+        result *= c;
+    }
+    return result * multiplyFatorial(number - 1);
+}
+
+int main() {
+
+    printf("%d", multiplyFatorial(4));
+
+    return 0;
+}
