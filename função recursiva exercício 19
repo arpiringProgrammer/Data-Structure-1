@@ -1,33 +1,27 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
+#include <math.h>
 
 /*
-19) Faça uma função recursiva que calcule o valor da série S 
-descrita a seguir para um valor n > 0
+18) Faça uma função recursiva que calcule o valor da série S descrita a seguir para um valor n > 0
 a ser fornecido como parâmetro para a mesma.
+S = 2 + 5/2 + 10/3 +...+ 1 + n²/n
 */
-
-float serieS(int n) {
-    if(n == 1) {
-        return 1;
+double calcularSerie(int n) {
+    if (n == 1) {
+        return 2.0; // O primeiro termo da série é 2, não 1
     }
-    
-    return (1.0 + n * n) / n + serieS(n - 1);
+
+    return (1.0 + (n * n)) / (double)n + calcularSerie(n - 1); // Calcula o termo atual corretamente
 }
 
-int main()
-{
-    printf("inform a value to the serie S:\n");
-    float value = 0.0;
-    scanf("%f",&value);
-    
-    if(value <= 0) {
-        printf("values under 0 are not allowed!\n");
-        return 1;
-    }
-    
-    printf("The result of the serie S with the value %.1f is %f.\n",value,serieS(value));
-    
+int main() {
+    int n = 2; // Você pode alterar o valor de n para testar diferentes casos
+
+    double resultado = calcularSerie(n);
+
+    printf("O valor da série S para n = %d é %.2f\n", n, resultado);
+
     return 0;
 }
