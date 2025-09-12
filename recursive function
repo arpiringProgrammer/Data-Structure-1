@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include "PracticeFile.h"
+#define BUFFER_SIZE 30
+
+/*
+Questão 09
+Implemente o método de ordenação as seleção direta de forma recursiva
+*/
+
+
+
+void recursiveFunction(int* vector, int *counter, int smaller, int size, int *fixedCounter) {
+    if(*counter >= size) {
+        (*fixedCounter)++;
+        if(*fixedCounter >= size - 1) {
+            return;
+        }
+        *counter = *fixedCounter + 1;
+    }
+    if(vector[*counter] < vector[*fixedCounter]) {
+        int newSmaller = vector[*counter];
+        int oldSmaller = vector[*fixedCounter];
+        vector[*counter] = oldSmaller;
+        vector[*fixedCounter] = newSmaller;
+    }
+    (*counter)++;
+    return recursiveFunction(vector, counter, smaller, size, fixedCounter);
+}
+
+
+
+void whereThingsHappen() {
+    int vector[] = {2,8,5,3,9,4,1};
+    int smaller = vector[0];
+    int size = sizeof(vector) / sizeof(vector[0]);
+    int counter = 1;
+    int fixedCounter = 0;
+
+    printf("Current order:\n");
+    for(int c = 0; c < sizeof(vector) / sizeof(vector[0]); c++) {
+        printf("%d\t",vector[c]);
+    }
+    printf("\n");
+
+    recursiveFunction(vector, &counter, smaller, size, &fixedCounter);
+
+    printf("Order after ordering.\n");
+    for(int c = 0; c < sizeof(vector) / sizeof(vector[0]); c++) {
+        printf("%d\t",vector[c]);
+    }
+    printf("\n");
+}
+
+int main() {
+
+    whereThingsHappen();
+
+    return 0;
+}
