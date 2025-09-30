@@ -1,0 +1,117 @@
+arquivo.c:
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include "PracticeFile.h"
+#define INICIAL_SIZE 10
+
+
+/*
+Questão 19
+Faça um programa que leia um inteiro n e aloque dinamicamente um vetor de n elementos.
+Após o preenchimento com valores fornecidos pelo usuário, leia também um inteiro k.
+O programa deve rotacionar o vetor para a direita em k posições, de forma circular (os últimos
+elementos “voltam” para o início do vetor). O desafio está em realizar a rotação sem criar uma cópia
+auxiliar completa do vetor. Exiba o vetor final após a rotação e libere a memória utilizada
+*/
+
+
+int* alocateMemory(int size) {
+    int* vector = (int*)malloc(size * sizeof(int));
+    if(!vector) {
+        return NULL;
+    }
+    return vector;
+}
+
+int rotatingVector(int* vector, int rotation, int size) {
+    for(int c = 0; c < rotation; c++) {
+        int num = vector[size - 1];
+        for(int i = size - 1; i > 0; i--) {
+            vector[i] = vector[i - 1];
+        }
+        vector[0] = num;
+    }
+}
+
+void printingVector(int* vector, int size) {
+    for(int c = 0; c < size; c++) {
+        printf("%d\t",vector[c]);
+    }
+}
+
+void fillingVector(int* vector, int size){
+    for(int c = 0; c < size; c++) {
+        scanf("%d",&vector[c]);
+    }
+}
+
+arquivo.h:
+
+#ifndef PRACTICEFILE_H
+#define PRACTICEFILE_H
+
+/*
+Questão 19
+Faça um programa que leia um inteiro n e aloque dinamicamente um vetor de n elementos.
+Após o preenchimento com valores fornecidos pelo usuário, leia também um inteiro k.
+O programa deve rotacionar o vetor para a direita em k posições, de forma circular (os últimos
+elementos “voltam” para o início do vetor). O desafio está em realizar a rotação sem criar uma cópia
+auxiliar completa do vetor. Exiba o vetor final após a rotação e libere a memória utilizada
+*/
+
+int* alocateMemory(int);
+
+int rotatingVector(int*, int, int);
+
+void printingVector(int*, int);
+
+void fillingVector(int*, int);
+
+void whereThingsHappen();
+
+#endif
+
+main.c:
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "PracticeFile.h"
+
+/*
+Questão 19
+Faça um programa que leia um inteiro n e aloque dinamicamente um vetor de n elementos.
+Após o preenchimento com valores fornecidos pelo usuário, leia também um inteiro k.
+O programa deve rotacionar o vetor para a direita em k posições, de forma circular (os últimos
+elementos “voltam” para o início do vetor). O desafio está em realizar a rotação sem criar uma cópia
+auxiliar completa do vetor. Exiba o vetor final após a rotação e libere a memória utilizada
+*/
+
+
+void whereThingsHappen() {
+    printf("\nInform the size of the vector:\n");
+    int size = 0;
+    scanf("%d",&size);
+    int* vector = alocateMemory(size);
+    if(!vector) return;
+    printf("\nInform the values in the vector:\n");
+    fillingVector(vector, size);
+    printf("\nPrinting the vector before rotating:\n");
+    printingVector(vector, size);
+    printf("\nHow many times do you want to rotate the vector:\n");
+    int rotation = 0;
+    scanf("%d",&rotation);
+    printf("\nVector after the rotation:\n");
+    rotatingVector(vector, rotation, size);
+    printingVector(vector, size);
+    free(vector);
+}
+
+int main() {
+
+    whereThingsHappen();
+
+    return 0;
+}
