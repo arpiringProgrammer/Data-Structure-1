@@ -1,0 +1,143 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "PracticeFile.h"
+
+/*
+Questão 20
+Escreva um programa que leia n números inteiros e os armazene em um vetor alocado dinamicamente.
+Em seguida, crie um novo vetor comprimido, armazenando cada número junto com a quantidade de
+vezes consecutivas em que ele aparece. Exemplo:
+Entrada → 5 5 5 2 2 7 7 7 7
+Saída → [5,3, 2,2, 7,4]
+O vetor comprimido deve crescer dinamicamente usando realloc, de acordo com os dados
+processados. Exiba o vetor comprimido e libere a memória ao final.
+*/
+
+
+void whereThingsHappen() {
+    printf("\nInform the size of the vector:\n");
+    int size = 0;
+    scanf("%d",&size);
+    int* vector = alocateMemory(size);
+    if(!vector) return;
+    printf("\nNow fill the vector:\n");
+    fillTheVector(vector, size);
+    printf("\nPrinting your current vector:\n");
+    printingVector(vector, size);
+    int* newVector = NULL;
+    printf("\nNow printing the new vector:\n");
+    int vecSize = 0;
+    realDeal(vector, size, &newVector, &vecSize);
+    printingVector(newVector, vecSize);
+    free(vector);
+    free(newVector);
+}
+
+int main() {
+
+    whereThingsHappen();
+
+    return 0;
+}
+
+
+#ifndef PRACTICEFILE_H
+#define PRACTICEFILE_H
+
+/*
+Questão 20
+Escreva um programa que leia n números inteiros e os armazene em um vetor alocado dinamicamente.
+Em seguida, crie um novo vetor comprimido, armazenando cada número junto com a quantidade de
+vezes consecutivas em que ele aparece. Exemplo:
+Entrada → 5 5 5 2 2 7 7 7 7
+Saída → [5,3, 2,2, 7,4]
+O vetor comprimido deve crescer dinamicamente usando realloc, de acordo com os dados
+processados. Exiba o vetor comprimido e libere a memória ao final.
+*/
+
+int* alocateMemory(int);
+
+void fillTheVector(int*, int);
+void printingVector(int*, int);
+
+void realDeal(int*, int, int**, int*);
+void whereThingsHappen();
+
+
+
+#endif
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include "PracticeFile.h"
+#define INICIAL_SIZE 10
+
+
+/*
+Questão 20
+Escreva um programa que leia n números inteiros e os armazene em um vetor alocado dinamicamente.
+Em seguida, crie um novo vetor comprimido, armazenando cada número junto com a quantidade de
+vezes consecutivas em que ele aparece. Exemplo:
+Entrada → 5 5 5 2 2 7 7 7 7
+Saída → [5,3, 2,2, 7,4]
+O vetor comprimido deve crescer dinamicamente usando realloc, de acordo com os dados
+processados. Exiba o vetor comprimido e libere a memória ao final.
+*/
+
+
+int* alocateMemory(int size) {
+    int* vector = malloc(sizeof(int) * size);
+    if (!vector) {
+        return NULL;
+    }
+    return vector;
+}
+
+void fillTheVector(int* vector, int size) {
+    for (int c = 0; c < size; c++) {
+        scanf("%d", &vector[c]);
+    }
+}
+
+void printingVector(int* vector, int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%d\t", vector[i]);
+    }
+    printf("\n");
+}
+
+void realDeal(int* vector, int size, int** newVector, int* vecSize) {
+    for (int c = 0; c < size; c++) {
+        int exist = 0, times = 1;
+
+        for (int i = 0; i < size; i++) {
+            if (c != i && vector[c] == vector[i]) {
+                times++;
+            }
+        }
+
+        for (int j = 0; j < *vecSize; j += 2) {
+            if (vector[c] == (*newVector)[j]) {
+                exist++;
+                break;
+            }
+        }
+
+        if (!exist) {
+            *vecSize += 2;
+            int* temp = realloc(*newVector, sizeof(int) * (*vecSize));
+            if (!temp) {
+                free(*newVector);
+                *newVector = NULL;
+                return;
+            }
+            *newVector = temp;
+            (*newVector)[(*vecSize) - 2] = vector[c];
+            (*newVector)[(*vecSize) - 1] = times;
+        }
+    }
+}
